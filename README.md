@@ -35,7 +35,7 @@ An example of play list:
 ```
 # Install
 The program is composed only by a single Python script. To work the script requires some applications.
-To launche the script:
+To launch the script:
 `./digsig.py`
 
 ## Dependencies
@@ -43,7 +43,10 @@ In the system must be installed:
  * mplayer
  * xdotool
  * feh
- 
+
+## Ubuntu/Debian
+sudo apt-get install mplayer feh xdotool python3 python3-urllib3
+
 ## Raspberry
 
 ## Beaglebone Black
