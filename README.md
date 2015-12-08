@@ -11,6 +11,7 @@ DigSig download from a Server the playlist that it will use to play the media. I
  * where downlaod the media
  * when play the medie
  * the uniquie ID of the media (it identifies univocally the media and so the media will be downloaded only one time)
+
 There is not limit about the number of the elements (media) of the playlist. Each playlist can have a ID that identify it, this ID is used by DigSig to send reports to the server.
 
 An example of play list:
