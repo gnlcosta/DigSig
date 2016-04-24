@@ -46,14 +46,20 @@ In the system must be installed:
  * feh
 
 ## Ubuntu/Debian
+```
 sudo apt-get install mplayer feh xdotool python3 python3-urllib3
+```
 
 ## Raspberry
+```
 sudo apt-get install mplayer feh xdotool python3 python3-urllib3
 ./digsig_pi_start.sh
+```
 
 ## Beaglebone Black
+```
 sudo apt-get install mplayer feh xdotool python3 python3-urllib3
+```
 
 # Configuration
 The configuration file is composed by a JSON file. In the JSON file there are two fieds:

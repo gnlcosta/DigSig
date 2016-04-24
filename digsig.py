@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #    DigSig: Digital Signage
-#    Copyright (C) 2015 Gianluca Costa <g.costa@xplico.org>
+#    Copyright (C) 2015-2016 Gianluca Costa <g.costa@xplico.org>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -40,6 +40,9 @@ data_dir = '/tmp'
 cfg_path = config_dir+'/digsig_cfg.json'
 report_xml = tmp_dir+'/media_report.xml'
 
+os.system('mkdir -p '+config_dir)
+os.system('chown -R www-data:www-data '+config_dir)
+
 threadLock = threading.Lock()
 threads_dnld = {}
 threads_play = {}
@@ -49,9 +52,9 @@ media_started = {}
 reports = {}
 list_id = 0
 media_id = 0
-err_nessuno = '0000'
-err_passato = '1000'
-err_non_presente = '2000'
+err_none = '0000'
+err_past = '1000'
+err_not_found = '2000'
 
     
 class VisualThr (threading.Thread):
@@ -92,7 +95,7 @@ class VisualThr (threading.Thread):
                     continue
             elif media_id in play_list[lid]:
                 if time.time() >= float(play_list[lid][media_id]['start']):
-                    reports[lid][play_list[lid][mid]['id']] = {'status': err_passato}
+                    reports[lid][play_list[lid][mid]['id']] = {'status': err_past}
                     threadLock.release()
                     continue
             
@@ -128,7 +131,7 @@ class VisualThr (threading.Thread):
             # image or video
             if not os.path.isfile(file_path):
                 threadLock.acquire()
-                reports[lid][play_list[lid][mid]['id']] = {'status': err_non_presente}
+                reports[lid][play_list[lid][mid]['id']] = {'status': err_not_found}
                 threadLock.release()
                 print('Media not found : '+str(play_list[lid][mid]['id'])+' '+file_path)
                 continue
@@ -142,7 +145,7 @@ class VisualThr (threading.Thread):
                 while time.time() < tstart:
                     time.sleep(0.250)
                 threadLock.acquire()
-                reports[lid][play_list[lid][mid]['id']] = {'status': err_nessuno, 'started': time.time()}
+                reports[lid][play_list[lid][mid]['id']] = {'status': err_none, 'started': time.time()}
                 threadLock.release()
                 os.system('xdotool windowmove `xdotool search --name media'+str(mid)+'` 0 0')
                 #os.system('xdotool windowmap `xdotool search --name media'+str(mid)+'`')
@@ -167,7 +170,7 @@ class VisualThr (threading.Thread):
                 while time.time() < tstart:
                     time.sleep(0.250)
                 threadLock.acquire()
-                reports[lid][play_list[lid][mid]['id']] = {'status': err_nessuno, 'started': time.time()}
+                reports[lid][play_list[lid][mid]['id']] = {'status': err_none, 'started': time.time()}
                 threadLock.release()
                 os.system('xdotool windowmove `xdotool search --name mediaimg'+str(mid)+'` 0 0')
                 #os.system('xdotool windowmap `xdotool search --name mediaimg'+str(mid)+'`')
